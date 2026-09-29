@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api/
+Disallow: /login
+Disallow: /profile
+Disallow: /studio
+Disallow: /my-map
+Sitemap: /sitemap.xml

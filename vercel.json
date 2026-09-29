@@ -1,0 +1,80 @@
+{
+  "rewrites": [
+    { "source": "/map", "destination": "/index.html" },
+    { "source": "/map/:path*", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/index.html" },
+    { "source": "/admin/:path*", "destination": "/index.html" },
+    { "source": "/enterprise", "destination": "/index.html" },
+    { "source": "/explore", "destination": "/index.html" },
+    { "source": "/education", "destination": "/index.html" },
+    { "source": "/studio", "destination": "/index.html" },
+    { "source": "/classroom", "destination": "/index.html" },
+    { "source": "/classroom/:path*", "destination": "/index.html" },
+    { "source": "/whatsapp", "destination": "/index.html" },
+    { "source": "/whatsapp/:path*", "destination": "/index.html" },
+    { "source": "/missions", "destination": "/index.html" },
+    { "source": "/peace", "destination": "/index.html" },
+    { "source": "/countries", "destination": "/index.html" },
+    { "source": "/countries/:path*", "destination": "/index.html" },
+    { "source": "/country", "destination": "/index.html" },
+    { "source": "/country/:path*", "destination": "/index.html" },
+    { "source": "/ghana", "destination": "/index.html" },
+    { "source": "/jobs", "destination": "/index.html" },
+    { "source": "/jobs/:path*", "destination": "/index.html" },
+    { "source": "/job", "destination": "/index.html" },
+    { "source": "/job/:path*", "destination": "/index.html" },
+    { "source": "/events", "destination": "/index.html" },
+    { "source": "/impact", "destination": "/index.html" },
+    { "source": "/data-gaps", "destination": "/index.html" },
+    { "source": "/sdgs", "destination": "/index.html" },
+    { "source": "/my-map", "destination": "/index.html" },
+    { "source": "/profile", "destination": "/index.html" },
+    { "source": "/join", "destination": "/index.html" },
+    { "source": "/partners", "destination": "/index.html" },
+    { "source": "/shop", "destination": "/index.html" },
+    { "source": "/sports", "destination": "/index.html" },
+    { "source": "/unity-ball", "destination": "/index.html" },
+    { "source": "/funding", "destination": "/index.html" },
+    { "source": "/schools", "destination": "/index.html" },
+    { "source": "/universities", "destination": "/index.html" },
+    { "source": "/login", "destination": "/index.html" },
+    { "source": "/privacy", "destination": "/index.html" },
+    { "source": "/terms", "destination": "/index.html" },
+    { "source": "/course/:path*", "destination": "/index.html" },
+    { "source": "/course", "destination": "/index.html" },
+    { "source": "/mission/:path*", "destination": "/index.html" },
+    { "source": "/mission", "destination": "/index.html" },
+    { "source": "/not-found", "destination": "/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+        { "key": "Content-Type", "value": "application/javascript; charset=utf-8" }
+      ]
+    },
+    {
+      "source": "/manifest.webmanifest",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, must-revalidate" },
+        { "key": "Content-Type", "value": "application/manifest+json" }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(self), microphone=(self), geolocation=(self)" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
+      ]
+    }
+  ]
+}

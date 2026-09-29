@@ -1,0 +1,23 @@
+{
+  "id": "/",
+  "name": "Be The Change",
+  "short_name": "Be The Change",
+  "description": "A global action network connecting people, skills, education, missions, places, events, funding, and verified impact for the Sustainable Development Goals.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#041019",
+  "theme_color": "#06151f",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["education", "productivity", "social", "navigation", "lifestyle"],
+  "icons": [
+    { "src": "/uploads/sbtc-lo.png", "sizes": "280x278", "type": "image/png", "purpose": "any" }
+  ],
+  "shortcuts": [
+    { "name": "Find a mission", "short_name": "Missions", "url": "/#missions", "icons": [{ "src": "/uploads/sbtc-lo.png", "sizes": "280x278", "type": "image/png" }] },
+    { "name": "See the change", "short_name": "Impact map", "url": "/map/", "icons": [{ "src": "/uploads/sbtc-lo.png", "sizes": "280x278", "type": "image/png" }] }
+  ]
+}

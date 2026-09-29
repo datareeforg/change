@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#06151f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Be The Change" />
+    <script>
+      (function () {
+        var t = null;
+        try { t = localStorage.getItem("btc-ui-theme"); } catch (e) {}
+        if (!t && window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) t = "light";
+        if (!t) t = "dark";
+        document.documentElement.setAttribute("data-theme", t);
+        document.querySelector('meta[name="theme-color"]').setAttribute("content", t === "light" ? "#f2efe6" : "#06151f");
+      })();
+    </script>
+    <style>html,body{background:#041019}</style>
+    <meta
+      name="description"
+      content="Be The Change — an independent SDG action network for skills, missions, learning, and evidence."
+    />
+    <title>Be The Change</title>
+    <link rel="icon" href="/uploads/sbtc-lo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/uploads/sbtc-lo.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app-shell"></div>
+    <div id="toast-region" class="toast-region" aria-live="polite"></div>
+    <script type="module" src="/boot.js"></script>
+    <script src="/offline-db.js" defer></script>
+    <script src="/pwa.js" defer></script>
+  </body>
+</html>

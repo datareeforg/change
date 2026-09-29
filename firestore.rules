@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function limitedString(data, field, maxLength) {
+      return !(field in data) || (data[field] is string && data[field].size() <= maxLength);
+    }
+
+    function validProfile(data, uid) {
+      return data.uid == uid
+        && data.email == request.auth.token.email
+        && (!('slug' in data) || data.slug == ''
+          || getAfter(/databases/$(database)/documents/slugs/$(data.slug)).data.uid == uid)
+        && data.keys().hasOnly([
+          'uid', 'email', 'display_name', 'photo_url', 'created_at', 'updated_at',
+          'slug', 'continent', 'country', 'city', 'bio', 'languages',
+          'availability', 'participation', 'birth_month', 'birth_year',
+          'avatar_url', 'referred_by_user_id', 'skills', 'interests'
+        ])
+        && data.display_name is string && data.display_name.size() <= 120
+        && limitedString(data, 'photo_url', 700)
+        && (!('slug' in data) || (data.slug is string
+          && (data.slug == '' || data.slug.matches('^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$'))))
+        && limitedString(data, 'continent', 80)
+        && limitedString(data, 'country', 100)
+        && limitedString(data, 'city', 120)
+        && limitedString(data, 'bio', 1200)
+        && limitedString(data, 'languages', 240)
+        && limitedString(data, 'availability', 80)
+        && limitedString(data, 'participation', 80)
+        && limitedString(data, 'birth_month', 2)
+        && limitedString(data, 'birth_year', 4)
+        && limitedString(data, 'avatar_url', 700)
+        && limitedString(data, 'referred_by_user_id', 160)
+        && (!('skills' in data) || (data.skills is list && data.skills.size() <= 50))
+        && (!('interests' in data) || (data.interests is list && data.interests.size() <= 30));
+    }
+
+    match /users/{uid} {
+      allow get: if signedInAs(uid);
+      allow list, delete: if false;
+      allow create: if signedInAs(uid)
+        && validProfile(request.resource.data, uid)
+        && request.resource.data.created_at == request.time
+        && request.resource.data.updated_at == request.time;
+      allow update: if signedInAs(uid)
+        && validProfile(request.resource.data, uid)
+        && request.resource.data.created_at == resource.data.created_at
+        && request.resource.data.updated_at == request.time
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'display_name', 'photo_url', 'updated_at', 'slug', 'continent',
+          'country', 'city', 'bio', 'languages', 'availability', 'participation',
+          'birth_month', 'birth_year', 'avatar_url', 'referred_by_user_id',
+          'skills', 'interests'
+        ]);
+    }
+
+    match /slugs/{slug} {
+      allow get: if request.auth != null;
+      allow list, update: if false;
+      allow create: if request.auth != null
+        && slug.matches('^[a-z0-9][a-z0-9-]{1,38}[a-z0-9]$')
+        && request.resource.data.keys().hasOnly(['uid'])
+        && request.resource.data.uid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.slug == slug;
+      allow delete: if request.auth != null
+        && resource.data.uid == request.auth.uid
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)).data.slug != slug;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
